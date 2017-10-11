@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_maps.*
 import java.lang.NullPointerException
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback,View.OnClickListener {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListener {
     override fun onClick(v: View?) {
         when (v) {
             btnJJ -> {
@@ -30,7 +30,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,View.OnClickListene
                 moveToPlaceTarget(13.815813, 100.560972, "เซนลาด"); Toast.makeText(this, "put move to Sent Here!!!", Toast.LENGTH_LONG).show()
             }
             btn_goTo_maps -> {
-                val gmmIntentUri = Uri.parse("geo:13.809243,100.5589972 ?q= SJinfinityone")
+                val lat = 13.805194
+                val long = 100.551894
+                val gmmIntentUri = Uri.parse("google.navigation:q=" + lat + "," + long)
+//                val gmmIntentUri = Uri.parse("geo:13.809243,100.5589972 ?q= SJinfinityone")
                 val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
                 mapIntent.`package` = "com.google.android.apps.maps"
                 startApp(mapIntent)
