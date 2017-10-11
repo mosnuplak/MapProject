@@ -2,6 +2,8 @@ package com.mosnanaja.mapproject
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -9,8 +11,29 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.activity_maps.*
+import com.google.android.gms.maps.model.CameraPosition
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+
+
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback,View.OnClickListener {
+    override fun onClick(v: View?) {
+        when(v){
+            btnJJ -> {moveToPlaceTarget(13.805194, 100.551894,"เจเจกรีน"); Toast.makeText(this,"put move to JJ Here!!!",Toast.LENGTH_LONG).show()}
+            btnSJ -> {moveToPlaceTarget(13.809275, 100.559083, "ตึกนี้แหละ"); Toast.makeText(this,"put move to SJ Here!!!",Toast.LENGTH_LONG).show()}
+            btnSent -> {moveToPlaceTarget(13.815813, 100.560972,"เซนลาด"); Toast.makeText(this,"put move to Sent Here!!!",Toast.LENGTH_LONG).show()}
+        }
+    }
+
+    private fun moveToPlaceTarget(Lat: Double, Lng: Double , namePlace: String) {
+        val place = LatLng(Lat, Lng)
+        val cameraPosition = CameraPosition.Builder()
+                .target(place)      // Sets the center of the map to Mountain View
+                .zoom(20f)      // Sets the zoom
+                .build()
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    }
+
 
     private lateinit var mMap: GoogleMap
 
@@ -18,9 +41,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
+        initOnClick()
+
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+    }
+
+    private fun initOnClick() {
+        btnJJ.setOnClickListener(this)
+        btnSJ.setOnClickListener(this)
+        btnSent.setOnClickListener(this)
     }
 
     /**
