@@ -4,10 +4,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.View
-import android.widget.LinearLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -23,9 +23,9 @@ import java.lang.NullPointerException
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListener {
     override fun onClick(v: View?) {
-//        when (v) {
+        when (v) {
 //            btnJJ -> {
-//               moveToPlaceTarget(13.805194, 100.551894, "เจเจกรีน"); Toast.makeText(this, "put move to JJ Here!!!", Toast.LENGTH_LONG).show()
+//                moveToPlaceTarget(13.805194, 100.551894, "เจเจกรีน"); Toast.makeText(this, "put move to JJ Here!!!", Toast.LENGTH_LONG).show()
 //            }
 //            btnSJ -> {
 //                moveToPlaceTarget(13.809275, 100.559083, "ตึกนี้แหละ"); Toast.makeText(this, "put move to SJ Here!!!", Toast.LENGTH_LONG).show()
@@ -33,17 +33,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
 //            btnSent -> {
 //                moveToPlaceTarget(13.815813, 100.560972, "เซนลาด"); Toast.makeText(this, "put move to Sent Here!!!", Toast.LENGTH_LONG).show()
 //            }
-//            btn_goTo_maps -> {
-//                val lat = 13.805194
-//                val long = 100.551894
-//                val gmmIntentUri = Uri.parse("google.navigation:q=" + lat + "," + long)
-////                val gmmIntentUri = Uri.parse("geo:13.809243,100.5589972 ?q= SJinfinityone")
-//                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-//                mapIntent.`package` = "com.google.android.apps.maps"
-//                startApp(mapIntent)
-////            startActivity(mapIntent);}
-//            }
-//        }
+            btn_goTo_youLocation -> {
+
+            }
+            btn_goTo_maps -> {
+                val lat = 13.815813
+                val long = 100.560972
+                val namePlace = "CentralPlaza Ladprao"
+//                val gmmIntentUri = Uri.parse("google.navigation:q=" + lat.toString() + "," + long.toString())
+//                val gmmIntentUri = Uri.parse("geo:" + lat.toString() + "," + long.toString() + "?q=" + namePlace)
+//                val gmmIntentUri = Uri.parse("google.navigation:q=" + namePlace+"thailand")
+                val gmmIntentUri = Uri.parse("google.navigation:q=" + lat + "," + long + "," + namePlace)
+                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                mapIntent.`package` = "com.google.android.apps.maps"
+                startApp(mapIntent)
+//            startActivity(mapIntent);}
+                Toast.makeText(this, "Open Google Maps", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun moveToPlaceTarget(Lat: Double, Lng: Double, namePlace: String) {
@@ -63,12 +70,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
         setContentView(R.layout.activity_maps)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val recycleView = findViewById<TextView>(R.id.recycleView) as RecyclerView
-        recycleView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL,false)
+        recycleView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
 
 
-
-
-        val adapter = Adapter( addLocation())
+        val adapter = Adapter(addLocation())
 
         recycleView.adapter = adapter
         initOnClick()
@@ -83,15 +88,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
 //        btnSJ.setOnClickListener(this)
 //        btnSent.setOnClickListener(this)
 //        btn_goTo_maps.setOnClickListener(this)
+        btn_goTo_youLocation.setOnClickListener(this)
+        btn_goTo_maps.setOnClickListener(this)
     }
+
     private fun addLocation(): ArrayList<Location> {
         val location = ArrayList<Location>()
-        location.add(Location("Bangsean","testLocation"))
-        location.add(Location("Bangsean2","testLocation2"))
-        location.add(Location("Bangsean3","testLocation3"))
-        location.add(Location("Bangsean4","testLocation4"))
-        location.add(Location("Bangsean5","testLocation5"))
+        location.add(Location("Bangsean", "testLocation"))
+        location.add(Location("Bangsean2", "testLocation2"))
+        location.add(Location("Bangsean3", "testLocation3"))
+        location.add(Location("Bangsean4", "testLocation4"))
+        location.add(Location("Bangsean5", "testLocation5"))
         return location
+
     }
 
     /**
@@ -111,7 +120,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
         val sj = LatLng(13.809275, 100.559083)
 
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sj,15f))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 
     fun startApp(mapIntent: Intent) {
