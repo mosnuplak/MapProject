@@ -5,16 +5,19 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
 /**
  * Created by Noob Fahh on 10/11/2017.
  */
-class Adapter (val locationList:ArrayList<Location>):RecyclerView.Adapter<Adapter.ViewHolder>(){
+class Adapter (val locationList: ArrayList<Location>, mMap: GoogleMap):RecyclerView.Adapter<Adapter.ViewHolder>(){
+    private var mMap: GoogleMap = mMap
+//    private val arrlocation = ArrayList<Double>()
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent?.context).inflate(R.layout.list_layout, parent ,false)
@@ -24,11 +27,24 @@ class Adapter (val locationList:ArrayList<Location>):RecyclerView.Adapter<Adapte
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val location: Location = locationList[position]
         holder?.textViewName?.text = location.name
-        holder?.textViewDescription?.text = location.descriptor
+        holder?.textViewDescription?.text = location.description
 
         holder?.itemView?.setOnClickListener {
-            moveToPlaceTarget(13.805194, 100.551894, "เจเจกรีน")
-            println("test")
+            //            RecyclerView.smoothScrollToPosition(int GtoIdxPosVal)
+            if (position == 0){
+
+            }
+            if (position == 1){
+                moveToPlaceTarget(13.809275, 100.559083, "SJ")
+            }
+            if (position == 2){
+                moveToPlaceTarget(13.815813, 100.560972, "เซนลาด")
+            }else{
+                //moveToPlaceTarget(13.815813, 100.560972, "เซนลาด")
+                moveToPlaceTarget(13.805194, 100.551894, "เจเจกรีน")
+            }
+            println("test"+position)
+
         }
     }
 
@@ -46,8 +62,9 @@ class Adapter (val locationList:ArrayList<Location>):RecyclerView.Adapter<Adapte
                 .target(place)      // Sets the center of the map to Mountain View
                 .zoom(20f)      // Sets the zoom
                 .build()
-//        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
-  //  private lateinit var mMap: GoogleMap
+
+
 
 }

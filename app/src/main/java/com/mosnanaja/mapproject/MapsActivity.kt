@@ -12,16 +12,30 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_maps.*
 import java.lang.NullPointerException
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListener {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListener , OnInfoWindowClickListener{
+    override fun onInfoWindowClick(marker: Marker) {
+//        val intent = Intent(this, Adapter::class.java)
+//        val title = marker.title
+//        tv1.text = "fah".toString()
+//        if (!title.contains("Marker in Sydney")) { // if bus stop
+//            intent.putExtra("markertitle", title)
+//            startActivity(intent)
+//        } else {
+//            // whatever you need to do for schools
+//        }
+    }
+
     override fun onClick(v: View?) {
         when (v) {
 //            btnJJ -> {
@@ -73,9 +87,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
         recycleView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
 
 
-        val adapter = Adapter(addLocation())
 
-        recycleView.adapter = adapter
         initOnClick()
 
         val mapFragment = supportFragmentManager
@@ -94,11 +106,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
 
     private fun addLocation(): ArrayList<Location> {
         val location = ArrayList<Location>()
-        location.add(Location("Bangsean", "testLocation"))
-        location.add(Location("Bangsean2", "testLocation2"))
-        location.add(Location("Bangsean3", "testLocation3"))
-        location.add(Location("Bangsean4", "testLocation4"))
-        location.add(Location("Bangsean5", "testLocation5"))
+        location.add(Location("JJ GREEN", "testLocation",13.805194,100.551894))
+        location.add(Location("SJ", "testLocation2",13.809275,100.559083))
+        location.add(Location("CentralPlaza Ladprao", "testLocation3",13.815813, 100.560972))
+        location.add(Location("CentralPlaza Ladprao2", "testLocation4",13.815813, 100.560972))
+        location.add(Location("CentralPlaza Ladprao3", "testLocation5",13.815813, 100.560972))
         return location
 
     }
@@ -114,16 +126,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        val adapter = Adapter(addLocation(),mMap)
 
+        recycleView.adapter = adapter
         // Add a marker in Sydney and move the camera
         val sydney = LatLng(-34.0, 151.0)
         val sj = LatLng(13.809275, 100.559083)
 
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+
     }
 
-    fun startApp(mapIntent: Intent) {
+    private fun startApp(mapIntent: Intent) {
         try {
 //            var intent = packageManager.getLaunchIntentForPackage(mapIntent.toString())
 //            intent!!.addCategory(Intent.CATEGORY_LAUNCHER)
