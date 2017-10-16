@@ -48,22 +48,83 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
 //                moveToPlaceTarget(13.815813, 100.560972, "เซนลาด"); Toast.makeText(this, "put move to Sent Here!!!", Toast.LENGTH_LONG).show()
 //            }
             btn_goTo_youLocation -> {
+                gps = GPSTracker(this@MapsActivity)
+//
+//                if (gps.canGetLocation()) {
+//
+//                    val latitude = gps.getLatitude()
+//                    val longitude = gps.getLongitude()
+//
+//                    //txtLocation.setText("ตำแหน่งของคุณคือ - \nLat: $latitude\nLong: $longitude")
+//                    moveToPlaceTarget(latitude, longitude, "เซนลาด"); Toast.makeText(this, "put move to Sent Here!!!", Toast.LENGTH_LONG).show()
+//                } else {
+//                    //txtLocation.setText("อุปกรณ์์ของคุณ ปิด GPS")
+//                }
 
+//                moveToPlaceTarget(13.815813, 100.560972, "เซนลาด"); Toast.makeText(this, "put move to Sent Here!!!", Toast.LENGTH_LONG).show()
             }
             btn_goTo_maps -> {
                 val lat = 13.815813
                 val long = 100.560972
                 val namePlace = "CentralPlaza Ladprao"
 //                val gmmIntentUri = Uri.parse("google.navigation:q=" + lat.toString() + "," + long.toString())
-//                val gmmIntentUri = Uri.parse("geo:" + lat.toString() + "," + long.toString() + "?q=" + namePlace)
+                val gmmIntentUri = Uri.parse("geo:" + lat.toString() + "," + long.toString() + "?q=" + namePlace)
 //                val gmmIntentUri = Uri.parse("google.navigation:q=" + namePlace+"thailand")
-                val gmmIntentUri = Uri.parse("google.navigation:q=" + lat + "," + long + "," + namePlace)
+//                val gmmIntentUri = Uri.parse("google.navigation:q=" + lat + "," + long + "," + namePlace)
                 val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
                 mapIntent.`package` = "com.google.android.apps.maps"
                 startApp(mapIntent)
 //            startActivity(mapIntent);}
                 Toast.makeText(this, "Open Google Maps", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    inner class GPSTracker(mapsActivity: MapsActivity) : android.location.LocationListener {
+        override fun onLocationChanged(location: android.location.Location?) {
+            for (i in 0 until plaseList!!.size) {
+                val distance = distance(location!!.getLatitude(), location.getLongitude(), plaseList!!.get(i).getLatitude()!!, plaseList.get(i).getLongitude()!!)
+//                if (distance <= plaseList.get(i).getDistance()!!) {
+                    if (plaseList.get(i).getName().toString() == inPlase) {
+                        //plaseList.remove(i);
+                        break
+                    } else {
+                        inPlase = plaseList.get(i).getName().toString()
+//                        showNotification(location, distance, plaseList.get(i).getName())
+                    }
+//                }
+            }
+        }
+
+        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+
+        }
+
+        override fun onProviderEnabled(provider: String?) {
+
+        }
+
+        override fun onProviderDisabled(provider: String?) {
+
+        }
+
+        private fun distance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+            val theta = lon1 - lon2
+            var dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + (Math.cos(deg2rad(lat1))
+                    * Math.cos(deg2rad(lat2))
+                    * Math.cos(deg2rad(theta)))
+            dist = Math.acos(dist)
+            dist = rad2deg(dist)
+            dist = dist * 60.0 * 1.1515
+            return dist
+        }
+
+        private fun deg2rad(deg: Double): Double {
+            return deg * Math.PI / 180.0
+        }
+
+        private fun rad2deg(rad: Double): Double {
+            return rad * 180.0 / Math.PI
         }
     }
 
@@ -78,6 +139,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
 
 
     private lateinit var mMap: GoogleMap
+    //    var gps: GPSTracker? = null
+    var gps: GPSTracker? = null
+    var txtLocation: TextView? = null
+    private val plaseList: List<Location>? = null
+    private var inPlase = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,6 +159,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
     }
 
     private fun initOnClick() {
@@ -149,4 +216,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
             startActivity(intent)
         }
     }
+
 }
+
+
