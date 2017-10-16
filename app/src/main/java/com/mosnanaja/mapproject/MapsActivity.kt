@@ -104,13 +104,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
         btn_goTo_maps.setOnClickListener(this)
     }
 
-    private fun addLocation(): ArrayList<Location> {
-        val location = ArrayList<Location>()
-        location.add(Location("JJ GREEN", "testLocation",13.805194,100.551894))
-        location.add(Location("SJ", "testLocation2",13.809275,100.559083))
-        location.add(Location("CentralPlaza Ladprao", "testLocation3",13.815813, 100.560972))
-        location.add(Location("CentralPlaza Ladprao2", "testLocation4",13.815813, 100.560972))
-        location.add(Location("CentralPlaza Ladprao3", "testLocation5",13.815813, 100.560972))
+    private fun addLocation(): ArrayList<LocationEvent> {
+        val location = ArrayList<LocationEvent>()
+        location.add(LocationEvent("JJ GREEN", "testLocation",13.805194,100.551894))
+        location.add(LocationEvent("SJ", "testLocation2",13.809275,100.559083))
+        location.add(LocationEvent("CentralPlaza Ladprao", "testLocation3",13.815813, 100.560972))
+        location.add(LocationEvent("CentralPlaza Ladprao2", "testLocation4",13.815813, 100.560972))
+        location.add(LocationEvent("CentralPlaza Ladprao3", "testLocation5",13.815813, 100.560972))
         return location
 
     }

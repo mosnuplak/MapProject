@@ -7,15 +7,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 
 /**
  * Created by Noob Fahh on 10/11/2017.
  */
-class Adapter (val locationList: ArrayList<Location>, mMap: GoogleMap):RecyclerView.Adapter<Adapter.ViewHolder>(){
+class Adapter (val locationEventList: ArrayList<LocationEvent>, mMap: GoogleMap):RecyclerView.Adapter<Adapter.ViewHolder>(){
     private var mMap: GoogleMap = mMap
 //    private val arrlocation = ArrayList<Double>()
 
@@ -25,31 +23,19 @@ class Adapter (val locationList: ArrayList<Location>, mMap: GoogleMap):RecyclerV
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        val location: Location = locationList[position]
-        holder?.textViewName?.text = location.name
-        holder?.textViewDescription?.text = location.description
+        val locationEvent: LocationEvent = locationEventList[position]
+        holder?.textViewName?.text = locationEvent.name
+        holder?.textViewDescription?.text = locationEvent.description
 
         holder?.itemView?.setOnClickListener {
             //            RecyclerView.smoothScrollToPosition(int GtoIdxPosVal)
-            if (position == 0){
-
-            }
-            if (position == 1){
-                moveToPlaceTarget(13.809275, 100.559083, "SJ")
-            }
-            if (position == 2){
-                moveToPlaceTarget(13.815813, 100.560972, "เซนลาด")
-            }else{
-                //moveToPlaceTarget(13.815813, 100.560972, "เซนลาด")
-                moveToPlaceTarget(13.805194, 100.551894, "เจเจกรีน")
-            }
-            println("test"+position)
-
+                moveToPlaceTarget(locationEvent.lat, locationEvent.long, locationEvent.name)
+            //println("test"+position)
         }
     }
 
     override fun getItemCount(): Int {
-        return locationList.size
+        return locationEventList.size
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
