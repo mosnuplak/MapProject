@@ -31,6 +31,7 @@ class Adapter (val locationEventList: ArrayList<LocationEvent>, mMap: GoogleMap)
             //            RecyclerView.smoothScrollToPosition(int GtoIdxPosVal)
                 moveToPlaceTarget(locationEvent.lat, locationEvent.long, locationEvent.name)
             //println("test"+position)
+            //test
         }
     }
 

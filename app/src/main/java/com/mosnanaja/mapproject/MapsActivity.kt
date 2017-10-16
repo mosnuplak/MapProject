@@ -112,6 +112,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
         location.add(LocationEvent("CentralPlaza Ladprao2", "testLocation4",13.815813, 100.560972))
         location.add(LocationEvent("CentralPlaza Ladprao3", "testLocation5",13.815813, 100.560972))
         return location
+        //test
 
     }
 
