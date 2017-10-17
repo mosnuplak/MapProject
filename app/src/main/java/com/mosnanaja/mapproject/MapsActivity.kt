@@ -22,63 +22,84 @@ import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_maps.*
 import java.lang.NullPointerException
 
-
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListener , OnInfoWindowClickListener{
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClickListener{
     override fun onInfoWindowClick(marker: Marker) {
-//        val intent = Intent(this, Adapter::class.java)
-//        val title = marker.title
-//        tv1.text = "fah".toString()
-//        if (!title.contains("Marker in Sydney")) { // if bus stop
-//            intent.putExtra("markertitle", title)
-//            startActivity(intent)
-//        } else {
-//            // whatever you need to do for schools
-//        }
-    }
-
-    override fun onClick(v: View?) {
-        when (v) {
-//            btnJJ -> {
-//                moveToPlaceTarget(13.805194, 100.551894, "เจเจกรีน"); Toast.makeText(this, "put move to JJ Here!!!", Toast.LENGTH_LONG).show()
-//            }
-//            btnSJ -> {
-//                moveToPlaceTarget(13.809275, 100.559083, "ตึกนี้แหละ"); Toast.makeText(this, "put move to SJ Here!!!", Toast.LENGTH_LONG).show()
-//            }
-//            btnSent -> {
-//                moveToPlaceTarget(13.815813, 100.560972, "เซนลาด"); Toast.makeText(this, "put move to Sent Here!!!", Toast.LENGTH_LONG).show()
-//            }
-            btn_goTo_youLocation -> {
-                gps = GPSTracker(this@MapsActivity)
-//
-//                if (gps.canGetLocation()) {
-//
-//                    val latitude = gps.getLatitude()
-//                    val longitude = gps.getLongitude()
-//
-//                    //txtLocation.setText("ตำแหน่งของคุณคือ - \nLat: $latitude\nLong: $longitude")
-//                    moveToPlaceTarget(latitude, longitude, "เซนลาด"); Toast.makeText(this, "put move to Sent Here!!!", Toast.LENGTH_LONG).show()
-//                } else {
-//                    //txtLocation.setText("อุปกรณ์์ของคุณ ปิด GPS")
-//                }
-
-//                moveToPlaceTarget(13.815813, 100.560972, "เซนลาด"); Toast.makeText(this, "put move to Sent Here!!!", Toast.LENGTH_LONG).show()
+      //  Toast.makeText(this,"test",Toast.LENGTH_SHORT).show()
+        println(marker.title)
+        val intent = Intent(this, Adapter::class.java)
+        val title = marker.title
+        when {
+            title.contains("SJ") -> {
+                Toast.makeText(this,"sj",Toast.LENGTH_SHORT).show()
+                recycleView.smoothScrollToPosition(1)
             }
-            btn_goTo_maps -> {
-                val lat = 13.815813
-                val long = 100.560972
-                val namePlace = "CentralPlaza Ladprao"
-//                val gmmIntentUri = Uri.parse("google.navigation:q=" + lat.toString() + "," + long.toString())
-                val gmmIntentUri = Uri.parse("geo:" + lat.toString() + "," + long.toString() + "?q=" + namePlace)
-//                val gmmIntentUri = Uri.parse("google.navigation:q=" + namePlace+"thailand")
-//                val gmmIntentUri = Uri.parse("google.navigation:q=" + lat + "," + long + "," + namePlace)
-                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                mapIntent.`package` = "com.google.android.apps.maps"
-                startApp(mapIntent)
-//            startActivity(mapIntent);}
-                Toast.makeText(this, "Open Google Maps", Toast.LENGTH_SHORT).show()
+            title.contains("jjGreen") -> {
+                Toast.makeText(this,"jj",Toast.LENGTH_SHORT).show()
+                recycleView.smoothScrollToPosition(0)
+                // whatever you need to do for schools
+            }
+            title.contains("cenLad") -> {
+                Toast.makeText(this,"cenlad",Toast.LENGTH_SHORT).show()
+                recycleView.smoothScrollToPosition(2)
+                // whatever you need to do for schools
+            }
+            title.contains("bangSaen") -> {
+                Toast.makeText(this,"bangsean",Toast.LENGTH_SHORT).show()
+                recycleView.smoothScrollToPosition(3)
+                // whatever you need to do for schools
+            }
+            title.contains("Chatuchak") -> {
+                Toast.makeText(this,"Chatuchak",Toast.LENGTH_SHORT).show()
+                recycleView.smoothScrollToPosition(4)
+                // whatever you need to do for schools
             }
         }
     }
+
+
+//    override fun onClick(v: View?) {
+//        when (v) {
+////            btnJJ -> {
+////                moveToPlaceTarget(13.805194, 100.551894, "เจเจกรีน"); Toast.makeText(this, "put move to JJ Here!!!", Toast.LENGTH_LONG).show()
+////            }
+////            btnSJ -> {
+////                moveToPlaceTarget(13.809275, 100.559083, "ตึกนี้แหละ"); Toast.makeText(this, "put move to SJ Here!!!", Toast.LENGTH_LONG).show()
+////            }
+////            btnSent -> {
+////                moveToPlaceTarget(13.815813, 100.560972, "เซนลาด"); Toast.makeText(this, "put move to Sent Here!!!", Toast.LENGTH_LONG).show()
+////            }
+//            btn_goTo_youLocation -> {
+//                gps = GPSTracker(this@MapsActivity)
+////
+////                if (gps.canGetLocation()) {
+////
+////                    val latitude = gps.getLatitude()
+////                    val longitude = gps.getLongitude()
+////
+////                    //txtLocation.setText("ตำแหน่งของคุณคือ - \nLat: $latitude\nLong: $longitude")
+////                    moveToPlaceTarget(latitude, longitude, "เซนลาด"); Toast.makeText(this, "put move to Sent Here!!!", Toast.LENGTH_LONG).show()
+////                } else {
+////                    //txtLocation.setText("อุปกรณ์์ของคุณ ปิด GPS")
+////                }
+//
+////                moveToPlaceTarget(13.815813, 100.560972, "เซนลาด"); Toast.makeText(this, "put move to Sent Here!!!", Toast.LENGTH_LONG).show()
+//            }
+//            btn_goTo_maps -> {
+//                val lat = 13.815813
+//                val long = 100.560972
+//                val namePlace = "CentralPlaza Ladprao"
+////                val gmmIntentUri = Uri.parse("google.navigation:q=" + lat.toString() + "," + long.toString())
+//                val gmmIntentUri = Uri.parse("geo:" + lat.toString() + "," + long.toString() + "?q=" + namePlace)
+////                val gmmIntentUri = Uri.parse("google.navigation:q=" + namePlace+"thailand")
+////                val gmmIntentUri = Uri.parse("google.navigation:q=" + lat + "," + long + "," + namePlace)
+//                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+//                mapIntent.`package` = "com.google.android.apps.maps"
+//                startApp(mapIntent)
+////            startActivity(mapIntent);}
+//                Toast.makeText(this, "Open Google Maps", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//    }
 
     inner class GPSTracker(mapsActivity: MapsActivity) : android.location.LocationListener {
         override fun onLocationChanged(location: android.location.Location?) {
@@ -167,17 +188,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
 //        btnSJ.setOnClickListener(this)
 //        btnSent.setOnClickListener(this)
 //        btn_goTo_maps.setOnClickListener(this)
-        btn_goTo_youLocation.setOnClickListener(this)
-        btn_goTo_maps.setOnClickListener(this)
+//        btn_goTo_youLocation.setOnClickListener(this)
+//        btn_goTo_maps.setOnClickListener(this)
     }
 
     private fun addLocation(): ArrayList<LocationEvent> {
         val location = ArrayList<LocationEvent>()
-        location.add(LocationEvent("JJ GREEN", "testLocation",13.805194,100.551894))
+        location.add(LocationEvent("JJ GREEN", "testLocation",13.8051982,100.5497053))
         location.add(LocationEvent("SJ", "testLocation2",13.809275,100.559083))
-        location.add(LocationEvent("CentralPlaza Ladprao", "testLocation3",13.815813, 100.560972))
-        location.add(LocationEvent("CentralPlaza Ladprao2", "testLocation4",13.815813, 100.560972))
-        location.add(LocationEvent("CentralPlaza Ladprao3", "testLocation5",13.815813, 100.560972))
+        location.add(LocationEvent("CentralPlaza Ladprao", "testLocation3",13.8158202,100.5587833))
+        location.add(LocationEvent("Bangsaen", "testLocation4",13.2985512,100.8998782))
+        location.add(LocationEvent("MRTChatuchak", "testLocation5",13.8038952,100.5519023))
         return location
         //test
 
@@ -200,9 +221,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
         // Add a marker in Sydney and move the camera
         val sydney = LatLng(-34.0, 151.0)
         val sj = LatLng(13.809275, 100.559083)
-
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        val jjGreen = LatLng(13.8051982,100.5497053)
+        val cenLad = LatLng(13.8158202,100.5587833)
+        val bangSaen  = LatLng(13.2985512,100.8998782)
+        val jatujuk  = LatLng(13.8038952,100.5519023)
+        mMap.addMarker(MarkerOptions().position(sj).title("SJ"))
+        mMap.addMarker(MarkerOptions().position(jjGreen).title("jjGreen"))
+        mMap.addMarker(MarkerOptions().position(cenLad).title("cenLad"))
+        mMap.addMarker(MarkerOptions().position(bangSaen).title("bangSaen"))
+        mMap.addMarker(MarkerOptions().position(jatujuk).title("MRTChatuchak"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(jatujuk))
+        mMap.setOnInfoWindowClickListener(this)
 
     }
 
