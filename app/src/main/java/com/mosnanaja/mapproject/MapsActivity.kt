@@ -23,37 +23,20 @@ import kotlinx.android.synthetic.main.activity_maps.*
 import java.lang.NullPointerException
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClickListener{
+
+    private lateinit var eventLocation:ArrayList<LocationEvent>
+
     override fun onInfoWindowClick(marker: Marker) {
       //  Toast.makeText(this,"test",Toast.LENGTH_SHORT).show()
         println(marker.title)
         val intent = Intent(this, Adapter::class.java)
         val title = marker.title
-        when {
-            title.contains("SJ") -> {
-                Toast.makeText(this,"sj",Toast.LENGTH_SHORT).show()
-                recycleView.smoothScrollToPosition(1)
-            }
-            title.contains("jjGreen") -> {
-                Toast.makeText(this,"jj",Toast.LENGTH_SHORT).show()
-                recycleView.smoothScrollToPosition(0)
-                // whatever you need to do for schools
-            }
-            title.contains("cenLad") -> {
-                Toast.makeText(this,"cenlad",Toast.LENGTH_SHORT).show()
-                recycleView.smoothScrollToPosition(2)
-                // whatever you need to do for schools
-            }
-            title.contains("bangSaen") -> {
-                Toast.makeText(this,"bangsean",Toast.LENGTH_SHORT).show()
-                recycleView.smoothScrollToPosition(3)
-                // whatever you need to do for schools
-            }
-            title.contains("Chatuchak") -> {
-                Toast.makeText(this,"Chatuchak",Toast.LENGTH_SHORT).show()
-                recycleView.smoothScrollToPosition(4)
-                // whatever you need to do for schools
+        for(i in 0 until eventLocation.size){
+            if(title.contains(eventLocation[i].name)){
+                recycleView.smoothScrollToPosition(i)
             }
         }
+
     }
 
 
@@ -213,25 +196,33 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClic
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        val adapter = Adapter(addLocation(),mMap)
+        eventLocation = addLocation()
+        val adapter = Adapter(eventLocation,mMap)
 
         recycleView.adapter = adapter
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        val sj = LatLng(13.809275, 100.559083)
-        val jjGreen = LatLng(13.8051982,100.5497053)
-        val cenLad = LatLng(13.8158202,100.5587833)
-        val bangSaen  = LatLng(13.2985512,100.8998782)
+
+        for(i in 0 until eventLocation.size){
+            val place = LatLng(eventLocation[i].lat,eventLocation[i].long)
+            mMap.addMarker(MarkerOptions().position(place).title(eventLocation[i].name))
+        }
+//        val sydney = LatLng(-34.0, 151.0)
+//        val sj = LatLng(13.809275, 100.559083)
+//        val jjGreen = LatLng(13.8051982,100.5497053)
+//        val cenLad = LatLng(13.8158202,100.5587833)
+//        val bangSaen  = LatLng(13.2985512,100.8998782)
         val jatujuk  = LatLng(13.8038952,100.5519023)
-        mMap.addMarker(MarkerOptions().position(sj).title("SJ"))
-        mMap.addMarker(MarkerOptions().position(jjGreen).title("jjGreen"))
-        mMap.addMarker(MarkerOptions().position(cenLad).title("cenLad"))
-        mMap.addMarker(MarkerOptions().position(bangSaen).title("bangSaen"))
+//        mMap.addMarker(MarkerOptions().position(sj).title("SJ"))
+//        mMap.addMarker(MarkerOptions().position(jjGreen).title("jjGreen"))
+//        mMap.addMarker(MarkerOptions().position(cenLad).title("cenLad"))
+//        mMap.addMarker(MarkerOptions().position(bangSaen).title("bangSaen"))
         mMap.addMarker(MarkerOptions().position(jatujuk).title("MRTChatuchak"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(jatujuk))
         mMap.setOnInfoWindowClickListener(this)
+
 
     }
 
