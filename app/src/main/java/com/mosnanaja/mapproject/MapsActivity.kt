@@ -1,5 +1,6 @@
 package com.mosnanaja.mapproject
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -38,6 +39,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClic
 
 
     private lateinit var eventLocation:ArrayList<LocationEvent>
+
 
     override fun onInfoWindowClick(marker: Marker) {
       //  Toast.makeText(this,"test",Toast.LENGTH_SHORT).show()
@@ -155,9 +157,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClic
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        mMap.uiSettings.isMapToolbarEnabled = false;
         eventLocation = addLocation()
         val adapter = Adapter(eventLocation,mMap)
-        mMap.uiSettings.isMapToolbarEnabled = false
+
         recycleView.adapter = adapter
         // Add a marker in Sydney and move the camera
 
@@ -177,8 +180,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClic
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MRTChatuchak,15f))
         mMap.setOnInfoWindowClickListener(this)
+//        mMap.isMyLocationEnabled = true
 
     }
+
 
     private fun startApp(mapIntent: Intent) {
         try {
