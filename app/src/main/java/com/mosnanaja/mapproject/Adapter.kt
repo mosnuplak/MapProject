@@ -24,14 +24,16 @@ class Adapter (val locationEventList: ArrayList<LocationEvent>, mMap: GoogleMap)
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val locationEvent: LocationEvent = locationEventList[position]
-        holder?.textViewName?.text = locationEvent.name
-        holder?.textViewDescription?.text = locationEvent.description
-
-        holder?.itemView?.setOnClickListener {
-            //            RecyclerView.smoothScrollToPosition(int GtoIdxPosVal)
+        if (holder != null) {
+            holder.textViewDate.text = locationEvent.date
+            holder.textViewName.text = locationEvent.name+locationEvent.time
+            holder.textViewDescription.text = locationEvent.description
+            holder.itemView.setOnClickListener {
+                //            RecyclerView.smoothScrollToPosition(int GtoIdxPosVal)
                 moveToPlaceTarget(locationEvent.lat, locationEvent.long, locationEvent.name)
-            //println("test"+position)
-            //test
+                //println("test"+position)
+                //test
+            }
         }
     }
 
@@ -42,12 +44,13 @@ class Adapter (val locationEventList: ArrayList<LocationEvent>, mMap: GoogleMap)
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val textViewName = itemView.findViewById<TextView>(R.id.textViewName) as TextView
         val textViewDescription = itemView.findViewById<TextView>(R.id.textViewDescription) as TextView
+        val textViewDate = itemView.findViewById<TextView>(R.id.dateEvent) as TextView
     }
     private fun moveToPlaceTarget(Lat: Double, Lng: Double, namePlace: String) {
         val place = LatLng(Lat, Lng)
         val cameraPosition = CameraPosition.Builder()
                 .target(place)      // Sets the center of the map to Mountain View
-                .zoom(20f)      // Sets the zoom
+                .zoom(15f)      // Sets the zoom
                 .build()
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }

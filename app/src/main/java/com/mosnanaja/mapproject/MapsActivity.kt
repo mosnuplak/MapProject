@@ -6,23 +6,30 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_maps.*
 import java.lang.NullPointerException
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.BitmapFactory
+
+
+
+
+
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClickListener{
+
 
     private lateinit var eventLocation:ArrayList<LocationEvent>
 
@@ -84,67 +91,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClic
 //        }
 //    }
 
-    inner class GPSTracker(mapsActivity: MapsActivity) : android.location.LocationListener {
-        override fun onLocationChanged(location: android.location.Location?) {
-            for (i in 0 until plaseList!!.size) {
-                val distance = distance(location!!.getLatitude(), location.getLongitude(), plaseList!!.get(i).getLatitude()!!, plaseList.get(i).getLongitude()!!)
-//                if (distance <= plaseList.get(i).getDistance()!!) {
-                    if (plaseList.get(i).getName().toString() == inPlase) {
-                        //plaseList.remove(i);
-                        break
-                    } else {
-                        inPlase = plaseList.get(i).getName().toString()
-//                        showNotification(location, distance, plaseList.get(i).getName())
-                    }
-//                }
-            }
-        }
-
-        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-
-        }
-
-        override fun onProviderEnabled(provider: String?) {
-
-        }
-
-        override fun onProviderDisabled(provider: String?) {
-
-        }
-
-        private fun distance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
-            val theta = lon1 - lon2
-            var dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + (Math.cos(deg2rad(lat1))
-                    * Math.cos(deg2rad(lat2))
-                    * Math.cos(deg2rad(theta)))
-            dist = Math.acos(dist)
-            dist = rad2deg(dist)
-            dist = dist * 60.0 * 1.1515
-            return dist
-        }
-
-        private fun deg2rad(deg: Double): Double {
-            return deg * Math.PI / 180.0
-        }
-
-        private fun rad2deg(rad: Double): Double {
-            return rad * 180.0 / Math.PI
-        }
-    }
-
-    private fun moveToPlaceTarget(Lat: Double, Lng: Double, namePlace: String) {
-        val place = LatLng(Lat, Lng)
-        val cameraPosition = CameraPosition.Builder()
-                .target(place)      // Sets the center of the map to Mountain View
-                .zoom(20f)      // Sets the zoom
-                .build()
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-    }
-
 
     private lateinit var mMap: GoogleMap
     //    var gps: GPSTracker? = null
-    var gps: GPSTracker? = null
+
     var txtLocation: TextView? = null
     private val plaseList: List<Location>? = null
     private var inPlase = ""
@@ -158,7 +108,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClic
 
 
 
-        initOnClick()
+
 
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
@@ -166,27 +116,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClic
 
     }
 
-    private fun initOnClick() {
-//        btnJJ.setOnClickListener(this)
-//        btnSJ.setOnClickListener(this)
-//        btnSent.setOnClickListener(this)
-//        btn_goTo_maps.setOnClickListener(this)
-//        btn_goTo_youLocation.setOnClickListener(this)
-//        btn_goTo_maps.setOnClickListener(this)
-    }
+
+
+
 
     private fun addLocation(): ArrayList<LocationEvent> {
         val location = ArrayList<LocationEvent>()
-        location.add(LocationEvent("JJ GREEN", "testLocation",13.8051982,100.5497053))
-        location.add(LocationEvent("SJ", "testLocation2",13.809275,100.559083))
-        location.add(LocationEvent("CentralPlaza Ladprao", "testLocation3",13.8158202,100.5587833))
-        location.add(LocationEvent("Bangsaen", "testLocation4",13.2985512,100.8998782))
-        location.add(LocationEvent("MRTChatuchak", "testLocation5",13.8038952,100.5519023))
+        location.add(LocationEvent("JJ GREEN", "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
+                ,13.8051982,100.5497053,"Sep 16, 2018","9:00PM"))
+        location.add(LocationEvent("SJ", "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
+                ,13.809275,100.559083,"Sep 16, 2018","9:00PM"))
+        location.add(LocationEvent("CentralPlaza Ladprao", "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
+                ,13.8158202,100.5587833,"Sep 16, 2018","9:00PM"))
+        location.add(LocationEvent("Bangsaen", "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
+                ,13.2985512,100.8998782,"Sep 16, 2018","9:00PM"))
+        location.add(LocationEvent("MRTChatuchak", "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
+                ,13.8038952,100.5519023,"Sep 16, 2018","9:00PM"))
         return location
-        //test
-
     }
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -207,22 +154,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClic
 
         for(i in 0 until eventLocation.size){
             val place = LatLng(eventLocation[i].lat,eventLocation[i].long)
-            mMap.addMarker(MarkerOptions().position(place).title(eventLocation[i].name))
+            mMap.addMarker(MarkerOptions()
+                    .position(place)
+                    .title(eventLocation[i].name)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin)))
         }
-//        val sydney = LatLng(-34.0, 151.0)
-//        val sj = LatLng(13.809275, 100.559083)
-//        val jjGreen = LatLng(13.8051982,100.5497053)
-//        val cenLad = LatLng(13.8158202,100.5587833)
-//        val bangSaen  = LatLng(13.2985512,100.8998782)
-        val jatujuk  = LatLng(13.8038952,100.5519023)
-//        mMap.addMarker(MarkerOptions().position(sj).title("SJ"))
-//        mMap.addMarker(MarkerOptions().position(jjGreen).title("jjGreen"))
-//        mMap.addMarker(MarkerOptions().position(cenLad).title("cenLad"))
-//        mMap.addMarker(MarkerOptions().position(bangSaen).title("bangSaen"))
-        mMap.addMarker(MarkerOptions().position(jatujuk).title("MRTChatuchak"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(jatujuk))
-        mMap.setOnInfoWindowClickListener(this)
 
+        val jatujuk  = LatLng(13.8038952,100.5519023)
+        //val event = android.location.Locationocation()
+        //val distance = jatujuk.distanceTo(jatujuk) / 1000
+        mMap.addMarker(MarkerOptions().position(jatujuk).title("MRTChatuchak"))
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(jatujuk,15f))
+        mMap.setOnInfoWindowClickListener(this)
 
     }
 

@@ -4,7 +4,7 @@ package com.mosnanaja.mapproject
 /**
  * Created by Noob Fahh on 10/11/2017.
  */
-data class Location(var name: String, val description: String, var lat: Double, var long: Double) {
+data class Location(var name: String, val description: String, var lat: Double, var long: Double,var date: String,var time: String) {
   
     fun getLatitude(): Double? {
         return lat
