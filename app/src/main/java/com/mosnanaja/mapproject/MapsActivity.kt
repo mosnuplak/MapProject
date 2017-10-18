@@ -123,15 +123,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClic
     private fun addLocation(): ArrayList<LocationEvent> {
         val location = ArrayList<LocationEvent>()
         location.add(LocationEvent("JJ GREEN", "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
-                ,13.8051982,100.5497053,"Sep 16, 2018","9:00PM"))
+                ,13.805209, 100.551896,"Sep 16, 2018","9:00PM"))
         location.add(LocationEvent("SJ", "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
                 ,13.809275,100.559083,"Sep 16, 2018","9:00PM"))
         location.add(LocationEvent("CentralPlaza Ladprao", "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
-                ,13.8158202,100.5587833,"Sep 16, 2018","9:00PM"))
-        location.add(LocationEvent("Bangsaen", "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
-                ,13.2985512,100.8998782,"Sep 16, 2018","9:00PM"))
+                ,13.815831, 100.560974,"Sep 16, 2018","9:00PM"))
+        location.add(LocationEvent("Bangsaen beach", "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
+                ,13.298562, 100.902067,"Sep 16, 2018","9:00PM"))
         location.add(LocationEvent("MRTChatuchak", "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
-                ,13.8038952,100.5519023,"Sep 16, 2018","9:00PM"))
+                ,13.803908, 100.554091,"Sep 16, 2018","9:00PM"))
         return location
     }
     /**
@@ -160,12 +160,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClic
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin)))
         }
 
-        val jatujuk  = LatLng(13.8038952,100.5519023)
+        val MRTChatuchak  = LatLng(13.803908, 100.554091)
         //val event = android.location.Locationocation()
         //val distance = jatujuk.distanceTo(jatujuk) / 1000
-        mMap.addMarker(MarkerOptions().position(jatujuk).title("MRTChatuchak"))
+        mMap.addMarker(MarkerOptions().position(MRTChatuchak).title("MRTChatuchak"))
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(jatujuk,15f))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MRTChatuchak,15f))
         mMap.setOnInfoWindowClickListener(this)
 
     }
