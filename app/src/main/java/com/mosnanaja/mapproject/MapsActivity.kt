@@ -1,5 +1,6 @@
 package com.mosnanaja.mapproject
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -22,16 +23,14 @@ import java.lang.NullPointerException
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.BitmapFactory
-
-
-
-
+import com.google.android.gms.common.api.GoogleApiClient
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClickListener{
 
 
     private lateinit var eventLocation:ArrayList<LocationEvent>
+
 
     override fun onInfoWindowClick(marker: Marker) {
       //  Toast.makeText(this,"test",Toast.LENGTH_SHORT).show()
@@ -144,8 +143,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClic
      * installed Google Play services and returned to the app.
      */
 
+    @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        mMap.uiSettings.isMapToolbarEnabled = false;
         eventLocation = addLocation()
         val adapter = Adapter(eventLocation,mMap)
 
@@ -167,8 +168,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClic
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MRTChatuchak,15f))
         mMap.setOnInfoWindowClickListener(this)
+//        mMap.isMyLocationEnabled = true
 
     }
+
 
     private fun startApp(mapIntent: Intent) {
         try {
