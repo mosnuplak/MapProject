@@ -22,6 +22,11 @@ import java.lang.NullPointerException
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.BitmapFactory
+import android.view.Gravity
+import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper
+import android.support.v7.widget.SnapHelper
+
+
 
 
 
@@ -36,11 +41,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClic
     override fun onInfoWindowClick(marker: Marker) {
       //  Toast.makeText(this,"test",Toast.LENGTH_SHORT).show()
         println(marker.title)
-        val intent = Intent(this, Adapter::class.java)
+      //  val intent = Intent(this, Adapter::class.java)
         val title = marker.title
+        val snapHelperTop = GravitySnapHelper(Gravity.TOP)
         for(i in 0 until eventLocation.size){
             if(title.contains(eventLocation[i].name)){
+                snapHelperTop.attachToRecyclerView(recycleView)
                 recycleView.smoothScrollToPosition(i)
+
             }
         }
 
@@ -148,7 +156,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClic
         mMap = googleMap
         eventLocation = addLocation()
         val adapter = Adapter(eventLocation,mMap)
-
+        mMap.uiSettings.isMapToolbarEnabled = false
         recycleView.adapter = adapter
         // Add a marker in Sydney and move the camera
 
@@ -157,7 +165,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClic
             mMap.addMarker(MarkerOptions()
                     .position(place)
                     .title(eventLocation[i].name)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin)))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
+            )
         }
 
         val MRTChatuchak  = LatLng(13.803908, 100.554091)
