@@ -1,6 +1,5 @@
 package com.mosnanaja.mapproject
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -23,6 +22,15 @@ import java.lang.NullPointerException
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.BitmapFactory
+import android.view.Gravity
+import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper
+import android.support.v7.widget.SnapHelper
+
+
+
+
+
+
 import com.google.android.gms.common.api.GoogleApiClient
 
 
@@ -31,14 +39,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClic
 
     private lateinit var eventLocation:ArrayList<LocationEvent>
 
-
     override fun onInfoWindowClick(marker: Marker) {
       //  Toast.makeText(this,"test",Toast.LENGTH_SHORT).show()
         println(marker.title)
         val intent = Intent(this, Adapter::class.java)
         val title = marker.title
+        val snapHelperTop = GravitySnapHelper(Gravity.TOP)
         for(i in 0 until eventLocation.size){
             if(title.contains(eventLocation[i].name)){
+                snapHelperTop.attachToRecyclerView(recycleView)
                 recycleView.smoothScrollToPosition(i)
             }
         }
@@ -146,10 +155,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClic
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        mMap.uiSettings.isMapToolbarEnabled = false;
         eventLocation = addLocation()
         val adapter = Adapter(eventLocation,mMap)
-
+        mMap.uiSettings.isMapToolbarEnabled = false
         recycleView.adapter = adapter
         // Add a marker in Sydney and move the camera
 
@@ -158,7 +166,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClic
             mMap.addMarker(MarkerOptions()
                     .position(place)
                     .title(eventLocation[i].name)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin)))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin))
+            )
         }
 
         val MRTChatuchak  = LatLng(13.803908, 100.554091)
@@ -168,10 +177,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback  , OnInfoWindowClic
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MRTChatuchak,15f))
         mMap.setOnInfoWindowClickListener(this)
-//        mMap.isMyLocationEnabled = true
 
     }
-
 
     private fun startApp(mapIntent: Intent) {
         try {
